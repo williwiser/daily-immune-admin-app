@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "daily-immune-admin-app",
-    "slug": "daily-immune-admin-app",
+    "name": "Daily Immune Admin",
+    "slug": "daily-immune",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,7 +16,9 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "googleServicesFile": "./google-services.json",
+      "package": "com.williwiser.dailyimmune"
     },
     "web": {
       "bundler": "metro",
@@ -34,10 +36,23 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-notifications",
+      {
+        "icon": "./assets/images/white_small_logo.png",
+        "color": "#ffffff",
+        "defaultChannel": "default"
+      }
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c767e24b-c809-4c68-b89f-155526f54083"
+      }
+    },
+    "owner": "williwiser"
   }
 }

@@ -1,9 +1,9 @@
 import Header from "@/app/components/Header";
+import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useState } from "react";
 import {
-  Button,
   FlatList,
   Image,
   ScrollView,
@@ -61,7 +61,7 @@ export default function UserProfile() {
     return words.slice(0, wordLimit).join(" ") + "...";
   };
 
-  useEffect(() => {
+  useFocusEffect(() => {
     axios
       .get(`https://daily-immune.ew.r.appspot.com/api/v1/users/${id}`)
       .then((response) => {
@@ -102,13 +102,37 @@ export default function UserProfile() {
               new Date(user.createdAt)
             )}
           </Text>
+
           <View className="flex flex-row items-center gap-3">
-            <Button title="Message" onPress={() => console.log("Message")} />
             <Button
-              title="Block"
-              color={"red"}
-              onPress={() => console.log("User blocked")}
-            ></Button>
+              className="bg-gray-100"
+              onPress={() => console.log("Message")}
+            >
+              <Text className="font-semibold">Message</Text>
+            </Button>
+            <Button
+              className={
+                user.status === "blocked" ? "bg-blue-500" : "bg-red-500"
+              }
+              onPress={() =>
+                router.push({
+                  pathname:
+                    user.status === "blocked"
+                      ? "/(protected)/user/unblock"
+                      : "/(protected)/user/block",
+                  params: {
+                    id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    profilePhoto: user.profilePhoto,
+                  },
+                })
+              }
+            >
+              <Text className="text-white font-semibold">
+                {user.status === "blocked" ? "Unblock" : "Block"}
+              </Text>
+            </Button>
           </View>
         </View>
         <View>

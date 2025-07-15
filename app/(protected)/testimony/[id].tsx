@@ -1,10 +1,9 @@
 import Header from "@/app/components/Header";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import axios from "axios";
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+
+import { Image, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface User {
@@ -47,15 +46,7 @@ export default function TestimonyArticle() {
   }, [id]);
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <Header
-        title="Testimony"
-        showBackButton
-        rightComponent={
-          <TouchableOpacity>
-            <FontAwesomeIcon icon={faEllipsisVertical} />
-          </TouchableOpacity>
-        }
-      />
+      <Header title="Testimony" showBackButton rightComponent="actionMenu" />
       <ScrollView>
         <Image
           source={

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
@@ -26,7 +26,7 @@ export default function Users() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <Header title="Users" />
+      <Header title="Users" rightComponent="mainMenu" />
       <FlatList
         data={users}
         renderItem={({ item }: { item: User }) => {

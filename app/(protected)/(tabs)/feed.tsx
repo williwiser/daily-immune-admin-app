@@ -1,8 +1,7 @@
 import axios from "axios";
 import { formatDistanceToNow } from "date-fns";
-
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
@@ -23,16 +22,18 @@ interface Testimony {
 
 export default function Feed() {
   const [feedItems, setFeedItems] = useState<Testimony[]>([]);
+
   useEffect(() => {
     axios
       .get(
         "https://daily-immune.ew.r.appspot.com/api/v1/testimonies?page=1&limit=20"
       )
       .then((response) => setFeedItems(response.data));
-  });
+  }, []);
+
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <Header title="Feed" />
+      <Header title="Feed" rightComponent="mainMenu" />
       <View className="px-4 py-6">
         <Text className="text-2xl font-semibold mb-4">Recent Activity</Text>
         <FlatList

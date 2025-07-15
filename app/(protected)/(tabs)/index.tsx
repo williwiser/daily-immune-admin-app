@@ -1,7 +1,8 @@
+import { useNotification } from "@/context/NotificationContext";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
@@ -14,6 +15,8 @@ interface Statistic {
 }
 
 export default function Index() {
+  const { expoPushToken, notification, error } = useNotification();
+
   const [statistics, setStatistics] = useState<Statistic>({
     totalUsers: 0,
     activeUsers: 0,
@@ -26,11 +29,14 @@ export default function Index() {
       .then((response) => {
         setStatistics(response.data);
       });
-  });
+  }, []);
 
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <Header title="Dashboard" />
+      <Header title="Dashboard" rightComponent="mainMenu" />
 
       {/* Your screen content */}
       <View className="p-4">

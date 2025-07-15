@@ -1,8 +1,9 @@
+import { useNotification } from "@/context/NotificationContext";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import axios, { isAxiosError } from "axios";
 import { router } from "expo-router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   ActivityIndicator,
@@ -17,7 +18,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import useAuth from "./context/zustand";
+import useAuth from "../context/zustand";
 
 interface FormData {
   email: string;
@@ -38,6 +39,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
+  const { expoPushToken } = useNotification();
   const { setToken, setUser } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,8 +51,21 @@ export default function Login() {
         `https://daily-immune.ew.r.appspot.com/api/v1/auth/mobile-login`,
         data
       );
+
       const token = response.data.token;
       const user = response.data.user;
+
+      const config = {
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+      };
+      await axios.post(
+        `https://daily-immune.ew.r.appspot.com/api/v1/users/admin/pushToken`,
+        { expoPushToken },
+        config
+      );
       await setToken(token);
       setUser(user);
       router.replace("/(protected)/(tabs)");
