@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Daily Immune Admin",
+    "name": "daily-immune-admin-app",
     "slug": "daily-immune",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo.png",
     "scheme": "dailyimmuneadminapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true
     },
@@ -36,13 +36,30 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-secure-store",
-      "expo-notifications",
-      {
-        "icon": "./assets/images/white_small_logo.png",
-        "color": "#ffffff",
-        "defaultChannel": "default"
-      }
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/white_small_logo.png",
+          "color": "#ffffff",
+          "defaultChannel": "default"
+        }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./node_modules/@react-native-vector-icons/<font-package>/fonts/<font-file>.ttf",
+            "./node_modules/@react-native-vector-icons/simple-line-icons/fonts/SimpleLineIcons.ttf"
+          ]
+        }
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

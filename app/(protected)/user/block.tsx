@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useAuth from "@/context/zustand";
-import axios from "axios";
+import { api } from "@/data/constants";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 
@@ -37,7 +37,7 @@ const reasons = [
 ];
 
 export default function Block() {
-  const { id, firstName, lastName, profilePhoto } = useLocalSearchParams();
+  const { id, firstName, lastName } = useLocalSearchParams();
   const { token } = useAuth();
   const [data, setData] = useState({ reason: "", notes: "" });
   const [isLoading, setIsLoading] = useState(false);
@@ -57,11 +57,7 @@ export default function Block() {
     console.log(data);
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `https://daily-immune.ew.r.appspot.com/api/v1/users/block/${id}`,
-        data,
-        config
-      );
+      const response = await api.post(`/users/block/${id}`, data, config);
       if (response.status === 401)
         ToastAndroid.show("Only admins can block users", ToastAndroid.SHORT);
       else {

@@ -26,7 +26,7 @@ const Header = ({
   showBackButton,
 }: {
   title: string;
-  rightComponent?: "noMenu" | "mainMenu" | "actionMenu";
+  rightComponent?: "noMenu" | "profile" | "actionMenu";
   showBackButton?: boolean;
 }) => {
   const insets = useSafeAreaInsets();
@@ -91,7 +91,11 @@ const Header = ({
             </DropdownMenuContent>
           </DropdownMenu>
         )}
-        {rightComponent === "mainMenu" && <FontAwesomeIcon icon={faBars} />}
+        {rightComponent === "profile" && (
+          <TouchableOpacity>
+            <FontAwesomeIcon icon={faBars} />
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

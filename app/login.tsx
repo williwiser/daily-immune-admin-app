@@ -1,7 +1,6 @@
 import { useNotification } from "@/context/NotificationContext";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import axios, { isAxiosError } from "axios";
+import { api } from "@/data/constants";
+import { isAxiosError } from "axios";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -47,10 +46,7 @@ export default function Login() {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `https://daily-immune.ew.r.appspot.com/api/v1/auth/mobile-login`,
-        data
-      );
+      const response = await api.post("/auth/mobile-login", data);
 
       const token = response.data.token;
       const user = response.data.user;
@@ -61,11 +57,7 @@ export default function Login() {
           "Content-Type": "application/json",
         },
       };
-      await axios.post(
-        `https://daily-immune.ew.r.appspot.com/api/v1/users/admin/pushToken`,
-        { expoPushToken },
-        config
-      );
+      await api.post("/users/admin/pushToken", { expoPushToken }, config);
       await setToken(token);
       setUser(user);
       router.replace("/(protected)/(tabs)");
@@ -79,7 +71,7 @@ export default function Login() {
     }
   };
   return (
-    <SafeAreaView className="flex-1 px-4 py-6">
+    <SafeAreaView className="flex-1 px-4 py-6 bg-white">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"} // use 'padding' on iOS, 'height' on Android
@@ -89,27 +81,10 @@ export default function Login() {
             <ActivityIndicator color="#747474" size="large" />
           ) : (
             <View className="flex items-center w-full">
-              <Image
-                source={require("../assets/images/logo.png")}
-                resizeMode="contain"
-                className="w-40 h-20 mb-8"
-              />
-
               <Text className="text-4xl text-center font-semibold mb-6 text-[#747474]">
                 Log In
               </Text>
 
-              <TouchableOpacity className="flex relative flex-row justify-center items-center border border-gray-300 p-4 rounded-md w-full max-w-sm">
-                <View className="absolute left-4">
-                  <FontAwesomeIcon icon={faGoogle} />
-                </View>
-                <Text>Continue with Google</Text>
-              </TouchableOpacity>
-              <View className="flex flex-row justify-center items-center w-full max-w-sm overflow-hidden">
-                <View className="border-b border-b-gray-300 my-8 w-1/2 " />
-                <Text className="mx-2 text-gray-400 text-sm">or</Text>
-                <View className="border-b border-b-gray-300 my-4 w-1/2 " />
-              </View>
               <Controller
                 control={control}
                 name="email"
@@ -120,6 +95,7 @@ export default function Login() {
                       errors.email ? "border-red-300" : "border-gray-300"
                     } rounded-md p-4 w-full mb-4 max-w-sm`}
                     onChangeText={onChange}
+                    autoCapitalize="none"
                     value={value}
                     placeholder="Email"
                   />
@@ -141,6 +117,7 @@ export default function Login() {
                     } rounded-md p-4 w-full mb-4 max-w-sm`}
                     placeholder="Password"
                     onChangeText={onChange}
+                    autoCapitalize="none"
                     value={value}
                     secureTextEntry
                   />
@@ -161,6 +138,20 @@ export default function Login() {
               {errorMessage && (
                 <Text className="my-4 text-red-500">{errorMessage}</Text>
               )}
+              <View className="flex flex-row justify-center items-center w-full max-w-sm overflow-hidden">
+                <View className="border-b border-b-gray-300 my-8 w-1/2 " />
+                <Text className="mx-2 text-gray-400 text-sm">or</Text>
+                <View className="border-b border-b-gray-300 my-4 w-1/2 " />
+              </View>
+              <TouchableOpacity className="flex relative flex-row justify-center items-center border border-gray-300 p-4 rounded-md w-full max-w-sm">
+                <View className="absolute left-4">
+                  <Image
+                    source={require("../assets/images/google_logo.png")}
+                    className="size-5"
+                  />
+                </View>
+                <Text>Continue with Google</Text>
+              </TouchableOpacity>
             </View>
           )}
         </KeyboardAvoidingView>

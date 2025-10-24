@@ -1,9 +1,10 @@
-import { useNotification } from "@/context/NotificationContext";
+import { useSocket } from "@/context/useSocket";
+import useAuth from "@/context/zustand";
+import { api } from "@/data/constants";
 import { Ionicons } from "@expo/vector-icons";
-import axios from "axios";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
 
@@ -15,29 +16,46 @@ interface Statistic {
 }
 
 export default function Index() {
-  const { expoPushToken, notification, error } = useNotification();
-
   const [statistics, setStatistics] = useState<Statistic>({
     totalUsers: 0,
     activeUsers: 0,
     prayerRequests: 0,
     testimonies: 0,
   });
+  const { user } = useAuth();
+  const { socket } = useSocket();
   useEffect(() => {
-    axios
-      .get(`https://daily-immune.ew.r.appspot.com/api/v1/users/stats`)
-      .then((response) => {
-        setStatistics(response.data);
-      });
-  }, []);
+    api.get(`/users/stats`).then((response) => {
+      setStatistics(response.data);
+    });
 
-  if (error) {
-    return <Text>Error: {error.message}</Text>;
-  }
+    console.log("some socket", socket?.id);
+  }, [socket]);
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <Header title="Dashboard" rightComponent="mainMenu" />
-
+      <Header title="Dashboard" rightComponent="profile" />
+      <View className="p-4">
+        <View className="flex-row items-center gap-4 ">
+          {!user?.profilePhoto ? (
+            <Image
+              source={{ uri: user?.profilePhoto }}
+              className="size-12 rounded-full"
+            />
+          ) : (
+            <View className="justify-center items-center bg-stone-200 size-12 rounded-full">
+              <Text>{user?.firstName[0]}</Text>
+            </View>
+          )}
+          <View>
+            <Text className="text-xl font-semibold">
+              {user?.firstName} {user?.lastName}
+            </Text>
+            <Text className="text-gray-400 uppercase text-sm">
+              {user?.role}
+            </Text>
+          </View>
+        </View>
+      </View>
       {/* Your screen content */}
       <View className="p-4">
         <Text className="text-2xl font-semibold mb-4">Overview</Text>
@@ -93,22 +111,6 @@ export default function Index() {
             <Ionicons name="newspaper" size={24} color="#000" />
             <Text className="text-base text-black flex-shrink w-full text-center">
               Moderate Content
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View className="flex flex-row gap-4 w-full mb-4 flex-wrap">
-          <TouchableOpacity className="flex flex-wrap gap-2 items-center p-6 bg-white rounded-md border border-gray-200 w-[48%]">
-            <Ionicons name="arrow-up" size={24} color="#000" />
-            <Text className="text-base text-black flex-shrink w-full text-center">
-              Upload Devotionals
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity className="flex flex-wrap gap-2 items-center p-6 bg-white rounded-md border border-gray-200 w-[48%]">
-            <Ionicons name="camera" size={24} color="#000" />
-            <Text className="text-base text-black flex-shrink w-full text-center">
-              Livestream
             </Text>
           </TouchableOpacity>
         </View>

@@ -1,8 +1,9 @@
 import Header from "@/app/components/Header";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
+import { api } from "@/data/constants";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import React, { useState } from "react";
+
 import {
   FlatList,
   Image,
@@ -62,19 +63,13 @@ export default function UserProfile() {
   };
 
   useFocusEffect(() => {
-    axios
-      .get(`https://daily-immune.ew.r.appspot.com/api/v1/users/${id}`)
-      .then((response) => {
-        setUser(response.data);
-      });
+    api.get(`/users/${id}`).then((response) => {
+      setUser(response.data);
+    });
 
-    axios
-      .get(
-        `https://daily-immune.ew.r.appspot.com/api/v1/prayers?page=1&limit=6&userId=${id}`
-      )
-      .then((response) => {
-        setPrayerRequests(response.data);
-      });
+    api.get(`/prayers?page=1&limit=6&userId=${id}`).then((response) => {
+      setPrayerRequests(response.data);
+    });
   });
 
   return (
@@ -108,7 +103,22 @@ export default function UserProfile() {
               className="bg-gray-100"
               onPress={() => console.log("Message")}
             >
-              <Text className="font-semibold">Message</Text>
+              <Text
+                className="font-semibold"
+                onPress={() =>
+                  router.push({
+                    pathname: "/user/chat",
+                    params: {
+                      id: id,
+                      profilePhoto: user.profilePhoto,
+                      firstName: user.firstName,
+                      lastName: user.lastName,
+                    },
+                  })
+                }
+              >
+                Message
+              </Text>
             </Button>
             <Button
               className={

@@ -1,18 +1,15 @@
 import Header from "@/app/components/Header";
 import { Button } from "@/components/ui/button";
 import useAuth from "@/context/zustand";
-import axios from "axios";
+import { api } from "@/data/constants";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 
 import { ActivityIndicator, Text, ToastAndroid, View } from "react-native";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Unblock() {
-  const { id, firstName, lastName, profilePhoto } = useLocalSearchParams();
+  const { id, firstName, lastName } = useLocalSearchParams();
   const { token } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -26,11 +23,7 @@ export default function Unblock() {
   const unblockUser = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.patch(
-        `https://daily-immune.ew.r.appspot.com/api/v1/users/unblock/${id}`,
-        {},
-        config
-      );
+      const response = await api.patch(`/users/unblock/${id}`, {}, config);
       if (response.status === 401)
         ToastAndroid.show("Only admins can unblock users", ToastAndroid.SHORT);
       else {
@@ -47,13 +40,13 @@ export default function Unblock() {
       setIsLoading(false);
     }
   };
-  const insets = useSafeAreaInsets();
-  const contentInsets = {
-    top: insets.top,
-    bottom: insets.bottom,
-    left: 12,
-    right: 12,
-  };
+  // const insets = useSafeAreaInsets();
+  // const contentInsets = {
+  //   top: insets.top,
+  //   bottom: insets.bottom,
+  //   left: 12,
+  //   right: 12,
+  // };
   return (
     <SafeAreaView className="flex-1 bg-white">
       <Header title="Unblock Confirmation" showBackButton />

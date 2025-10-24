@@ -1,7 +1,8 @@
 import {
+  faCalendarCheck,
   faHome,
+  faMessage,
   faNewspaper,
-  faUserCircle,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -40,12 +41,12 @@ const _layout = () => {
       />
 
       <Tabs.Screen
-        name="users"
+        name="messages"
         options={{
-          title: "Users",
+          title: "Messages",
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon
-              icon={faUsers}
+              icon={faMessage}
               color={focused ? "#28A745" : "gray"}
             />
           ),
@@ -53,12 +54,12 @@ const _layout = () => {
       />
 
       <Tabs.Screen
-        name="profile"
+        name="users"
         options={{
-          title: "Profile",
+          title: "Users",
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon
-              icon={faUserCircle}
+              icon={faUsers}
               color={focused ? "#28A745" : "gray"}
             />
           ),
