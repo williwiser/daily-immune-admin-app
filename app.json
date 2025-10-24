@@ -44,21 +44,8 @@
           "defaultChannel": "default"
         }
       ],
-      [
-        "@react-native-google-signin/google-signin",
-        {
-          "iosUrlScheme": "com.googleusercontent.apps._some_id_here_"
-        }
-      ],
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./node_modules/@react-native-vector-icons/<font-package>/fonts/<font-file>.ttf",
-            "./node_modules/@react-native-vector-icons/simple-line-icons/fonts/SimpleLineIcons.ttf"
-          ]
-        }
-      ],
+      ["@react-native-google-signin/google-signin"],
+      ["expo-font"],
       "expo-secure-store"
     ],
     "experiments": {
