@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   ActivityIndicator,
-  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -24,13 +23,13 @@ interface FormData {
   password: string;
 }
 
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  profilePhoto: string;
-}
+// interface User {
+//   id: string;
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+//   profilePhoto: string;
+// }
 
 export default function Login() {
   const {
@@ -138,20 +137,6 @@ export default function Login() {
               {errorMessage && (
                 <Text className="my-4 text-red-500">{errorMessage}</Text>
               )}
-              <View className="flex flex-row justify-center items-center w-full max-w-sm overflow-hidden">
-                <View className="border-b border-b-gray-300 my-8 w-1/2 " />
-                <Text className="mx-2 text-gray-400 text-sm">or</Text>
-                <View className="border-b border-b-gray-300 my-4 w-1/2 " />
-              </View>
-              <TouchableOpacity className="flex relative flex-row justify-center items-center border border-gray-300 p-4 rounded-md w-full max-w-sm">
-                <View className="absolute left-4">
-                  <Image
-                    source={require("../assets/images/google_logo.png")}
-                    className="size-5"
-                  />
-                </View>
-                <Text>Continue with Google</Text>
-              </TouchableOpacity>
             </View>
           )}
         </KeyboardAvoidingView>
