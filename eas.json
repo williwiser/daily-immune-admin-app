@@ -15,8 +15,7 @@
       "env": {
         "EXPO_NEW_ARCH_ENABLED": "1"
       },
-      "autoIncrement": true,
-      "packageManager": "npm"
+      "autoIncrement": true
     }
   },
   "submit": {
