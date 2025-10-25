@@ -8,9 +8,6 @@
       "developmentClient": true,
       "distribution": "internal"
     },
-    "env": {
-      "EXPO_NEW_ARCH_ENABLED": "1"
-    },
     "preview": {
       "distribution": "internal"
     },
